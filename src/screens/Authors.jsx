@@ -9,7 +9,7 @@ import { BlurView } from 'expo-blur';
 import DatePicker from 'react-native-date-picker';
 import SelectDropdown from 'react-native-select-dropdown';
 
-
+///// рендер Автора
 const Author = ({ author, index }) => {
   let bDate = new   Date(author.date*1000);
   const [name,setName] = useState(author.first_name);
@@ -19,13 +19,14 @@ const Author = ({ author, index }) => {
   const [newDate, setNewdate]= useState(bDate);
   const [modal, setModal] = useState(false);
 
+
+  //// функция редактирования автора
   const editAuthor = async (id)=>{
-  //   console.log(bDate)
-  // console.log(newDate)
+
     await editAuth(name, papa, fam, newDate, id);
     setModal(false);
   }
-  const firestore = getFirestore();
+
 
   return (
       <TouchableOpacity
@@ -46,7 +47,7 @@ const Author = ({ author, index }) => {
         onConfirm={(date) => {
 
           setDatepick(false)
-           setNewdate(date)
+          setNewdate(date)//установка даты
         }}
         onCancel={() => {
            setDatepick(false)
@@ -121,6 +122,7 @@ const Author = ({ author, index }) => {
   );
 };
 
+
 const Authors = ({navigation, auth}) => {
   const [authors2, setAuthors] = useState();
   const [modal, setModal] = useState(false);
@@ -136,19 +138,21 @@ const Authors = ({navigation, auth}) => {
     setAuthors(auth)
   },[auth])
 
-  const setAuthor = async()=>{
+
+  const setAuthor = async()=>{                            ////установка значений нового автора
     if(name==''||papa==''||fam==''||newDate==null){
       Alert.alert('Внимание', 'Заполните все поля');
       return false;
     }
-    await addAuthor(name,papa, fam, newDate);
+    await addAuthor(name,papa, fam, newDate);             //// функция добавления автора в БД
     setName('');
     setPapa('');
     setFam('');
     setNewdate(null);
     setModal(false);
   }
-  const sort = {
+
+  const sort = {                                          ////массив для сортировки
     'по имени': 'first_name',
     'по фамилии':'last_name',
     'по отчеству':'papa_name',
@@ -156,9 +160,8 @@ const Authors = ({navigation, auth}) => {
   };
 
 
-  const sorting = (selectedItem, index)=>{
-// console.log(sort[selectedItem]);
-// return false;
+  const sorting = (selectedItem, index)=>{                 /////сортировка
+
 let  sortedArray;
 console.log(selectedItem);
 if(selectedItem=='по id'){
@@ -196,7 +199,7 @@ if(selectedItem=='по id'){
         onConfirm={(date) => {
 
           setDatepick(false)
-           setNewdate(date)
+          setNewdate(date)
         }}
         onCancel={() => {
            setDatepick(false)
@@ -257,13 +260,9 @@ if(selectedItem=='по id'){
          sorting(selectedItem, index);
         }}
         buttonTextAfterSelection={(selectedItem, index) => {
-          // text represented after item is selected
-          // if data array is an array of objects then return selectedItem.property to render after item is selected
           return selectedItem
         }}
         rowTextForSelection={(item, index) => {
-          // text represented for each item in dropdown
-          // if data array is an array of objects then return item.property to represent item in dropdown
           return item
         }}
       />

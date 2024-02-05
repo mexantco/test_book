@@ -18,14 +18,14 @@ const Navigation = () => {
 
   const [authors, setAuthors] = useState();
 
-  useEffect(()=>{
+  useEffect(()=>{                                             ////получаем массив авторов
     const asFn= async ()=>{
     const db = getFirestore();
     const q = query(
     collection(db, "authors")
     );
     //
-const  unsubscribe = onSnapshot(q, (querySnapshot)=>{
+const  unsubscribe = onSnapshot(q, (querySnapshot)=>{           ////вешаем слушатель на изменение авторов в БД
         let auts = [];
         querySnapshot.forEach(async(doc)=>{
           let document  = doc.data();
@@ -43,7 +43,6 @@ const  unsubscribe = onSnapshot(q, (querySnapshot)=>{
   },[])
 
 
-// console.log(authors)
   return (
 
     <Tab.Navigator
@@ -66,8 +65,8 @@ const  unsubscribe = onSnapshot(q, (querySnapshot)=>{
           <Tab.Screen
 
             name="Authors"
-            // initialParams={{authors:authors}}
-            component={()=><Authors auth={authors}/>}
+
+            component={()=><Authors auth={authors}/>}   /////передаем текущее состояние коллекции авторов в компонет Авторы
             options={{
 
               title: "Авторы" }}
@@ -76,7 +75,7 @@ const  unsubscribe = onSnapshot(q, (querySnapshot)=>{
           <Tab.Screen
 
             name="Books"
-            component={()=><Books auth={authors}/>}
+            component={()=><Books auth={authors}/>}     /////передаем текущее состояние коллекции авторов в компонет Книги
             options={{
               title: "Книги",
            }}
